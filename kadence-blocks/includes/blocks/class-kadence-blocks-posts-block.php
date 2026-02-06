@@ -117,6 +117,9 @@ class Kadence_Blocks_Posts_Block extends Kadence_Blocks_Abstract_Block {
 		}
 		$css->set_media_state( 'desktop' );
 
+		$css->set_selector( '.kb-posts-id-' . $unique_id . ' .kb-post-list-item' );
+		$css->add_property( 'display', 'grid' );
+
 		return $css->css_output();
 	}
 	/**
@@ -135,6 +138,7 @@ class Kadence_Blocks_Posts_Block extends Kadence_Blocks_Abstract_Block {
 			return;
 		}
 		global $kadence_blocks_posts_not_in;
+		$kadence_blocks_posts_not_in_local = [];
 		if ( ! isset( $kadence_blocks_posts_not_in ) || ! is_array( $kadence_blocks_posts_not_in ) ) {
 			$kadence_blocks_posts_not_in = [];
 		}
@@ -195,10 +199,11 @@ class Kadence_Blocks_Posts_Block extends Kadence_Blocks_Abstract_Block {
 		$classes = apply_filters( 'kadence_blocks_posts_container_classes', $classes );
 		do_action( 'kadence_blocks_posts_before_query', $attributes );
 		if ( apply_filters( 'kadence_blocks_posts_block_exclude_current', true ) && is_singular() ) {
-			if ( ! in_array( get_the_ID(), $kadence_blocks_posts_not_in, true ) ) {
-				$kadence_blocks_posts_not_in[] = get_the_ID();
-			}
+			$kadence_blocks_posts_not_in_local[] = get_the_ID();
 		}
+
+		$final_posts_not_in = isset( $kadence_blocks_posts_not_in ) && is_array( $kadence_blocks_posts_not_in ) ? array_merge( $kadence_blocks_posts_not_in, $kadence_blocks_posts_not_in_local ) : $kadence_blocks_posts_not_in_local;
+
 		$post_type = ( isset( $attributes['postType'] ) && ! empty( $attributes['postType'] ) ? $attributes['postType'] : 'post' );
 		$args      = [
 			'post_type'           => $post_type,
@@ -207,7 +212,7 @@ class Kadence_Blocks_Posts_Block extends Kadence_Blocks_Abstract_Block {
 			'order'               => ( isset( $attributes['order'] ) && ! empty( $attributes['order'] ) ? $attributes['order'] : 'desc' ),
 			'orderby'             => ( isset( $attributes['orderBy'] ) && ! empty( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'date' ),
 			'ignore_sticky_posts' => ( isset( $attributes['allowSticky'] ) && $attributes['allowSticky'] ? 0 : 1 ),
-			'post__not_in'        => ( isset( $kadence_blocks_posts_not_in ) && is_array( $kadence_blocks_posts_not_in ) ? $kadence_blocks_posts_not_in : [] ),
+			'post__not_in'        => $final_posts_not_in,
 		];
 		if ( isset( $attributes['offsetQuery'] ) && ! empty( $attributes['offsetQuery'] ) ) {
 			$args['offset'] = $attributes['offsetQuery'];
@@ -248,6 +253,65 @@ class Kadence_Blocks_Posts_Block extends Kadence_Blocks_Abstract_Block {
 				$args['tag__in']      = $tags;
 			}
 		}
+		/**
+		 * Filter the query arguments before executing the WP_Query.
+		 *
+		 * This filter allows developers to completely take over or modify the query arguments
+		 * that are used to fetch posts for the Kadence Posts block. By hooking into this filter,
+		 * you can override any default query parameters, add custom tax_query conditions,
+		 * modify post_type, posts_per_page, order, orderby, or any other WP_Query parameter.
+		 *
+		 * @since 1.9.19
+		 *
+		 * @param array $args The array of query arguments that will be passed to WP_Query.
+		 *                    Default arguments include:
+		 *                    - post_type: The post type to query (default: 'post' or from attributes)
+		 *                    - posts_per_page: Number of posts to show (default: 6 or from attributes)
+		 *                    - post_status: Post status (default: 'publish')
+		 *                    - order: Sort order (default: 'desc' or from attributes)
+		 *                    - orderby: Sort by field (default: 'date' or from attributes)
+		 *                    - ignore_sticky_posts: Whether to ignore sticky posts
+		 *                    - post__not_in: Array of post IDs to exclude
+		 *                    - offset: Number of posts to skip (if offsetQuery is set)
+		 *                    - tax_query: Taxonomy query conditions (if applicable)
+		 *                    - category__in/category__not_in: Category filters (if applicable)
+		 *                    - tag__in/tag__not_in: Tag filters (if applicable)
+		 * @param array $attributes The block attributes array containing all block settings.
+		 *
+		 * @return array Modified query arguments array.
+		 *
+		 * @example
+		 * // Modify posts per page
+		 * add_filter( 'kadence_blocks_posts_query_args', function( $args ) {
+		 *     $args['posts_per_page'] = 12;
+		 *     return $args;
+		 * } );
+		 *
+		 * @example
+		 * // Add custom meta query
+		 * add_filter( 'kadence_blocks_posts_query_args', function( $args ) {
+		 *     $args['meta_query'] = array(
+		 *         array(
+		 *             'key'     => 'featured_post',
+		 *             'value'   => 'yes',
+		 *             'compare' => '='
+		 *         )
+		 *     );
+		 *     return $args;
+		 * } );
+		 *
+		 * @example
+		 * // Completely override query arguments
+		 * add_filter( 'kadence_blocks_posts_query_args', function( $args ) {
+		 *     return array(
+		 *         'post_type'      => 'custom_post_type',
+		 *         'posts_per_page' => 5,
+		 *         'post_status'    => 'publish',
+		 *         'orderby'        => 'title',
+		 *         'order'          => 'ASC',
+		 *     );
+		 * } );
+		 */
 		$args = apply_filters( 'kadence_blocks_posts_query_args', $args );
 		$loop = new WP_Query( $args );
 		ob_start();

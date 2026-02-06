@@ -395,6 +395,7 @@ class Editor_Assets {
 				'aiLang'                 => ( ! empty( $prophecy_data['lang'] ) ? $prophecy_data['lang'] : '' ),
 				'env'                    => ( ! empty( $pro_data['env'] ) ? $pro_data['env'] : '' ),
 				'kadenceBlocksUrl'       => KADENCE_BLOCKS_URL,
+				'tVersion'               => defined( 'KADENCE_VERSION' ) ? KADENCE_VERSION : '',
 			]
 		);
 		wp_localize_script(
@@ -812,7 +813,7 @@ class Editor_Assets {
 			return;
 		}
 		global $pagenow;
-		if ( 'post.php' === $pagenow || 'post-new.php' === $pagenow || 'widgets.php' === $pagenow ) {
+		if ( 'post.php' === $pagenow || 'post-new.php' === $pagenow || 'widgets.php' === $pagenow || 'site-editor.php' === $pagenow ) {
 			wp_localize_script(
 				'kadence-blocks-js',
 				'kadence_blocks_user_params',
