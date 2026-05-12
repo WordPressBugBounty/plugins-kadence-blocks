@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'kadencewp/kadence-blocks',
-        'pretty_version' => '3.7.0',
-        'version' => '3.7.0.0',
-        'reference' => '3fbc0094f50ee0285cddc2d165e733ba918176a5',
+        'pretty_version' => '3.7.1',
+        'version' => '3.7.1.0',
+        'reference' => 'beac502c83dbdc8d5759e035fa9deb72bf8fa8e4',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -47,9 +47,9 @@
             'dev_requirement' => false,
         ),
         'kadencewp/kadence-blocks' => array(
-            'pretty_version' => '3.7.0',
-            'version' => '3.7.0.0',
-            'reference' => '3fbc0094f50ee0285cddc2d165e733ba918176a5',
+            'pretty_version' => '3.7.1',
+            'version' => '3.7.1.0',
+            'reference' => 'beac502c83dbdc8d5759e035fa9deb72bf8fa8e4',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -206,9 +206,9 @@
             'dev_requirement' => false,
         ),
         'stellarwp/harbor' => array(
-            'pretty_version' => 'v1.0.2',
-            'version' => '1.0.2.0',
-            'reference' => '11ad277d7a1eda1b90ba01eb13aa7d48f0da7553',
+            'pretty_version' => 'v1.1.0',
+            'version' => '1.1.0.0',
+            'reference' => '97c3a17758b03f90980c34c661a7dd119c6c307f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../stellarwp/harbor',
             'aliases' => array(),
