@@ -2,9 +2,9 @@
   'root' => 
   array (
     'name' => 'kadencewp/kadence-blocks',
-    'pretty_version' => '3.7.12.1',
-    'version' => '3.7.12.1',
-    'reference' => '3d8ca7addd34ce1532c26b1e9b3440535cf2d007',
+    'pretty_version' => '3.8.0',
+    'version' => '3.8.0.0',
+    'reference' => 'eb0860ca60e8e309ee2c0de5ccc1f713c02e5b27',
     'type' => 'wordpress-plugin',
     'install_path' => __DIR__ . '/../',
     'aliases' => 
@@ -40,9 +40,9 @@
     ),
     'enshrined/svg-sanitize' => 
     array (
-      'pretty_version' => '0.22.0',
-      'version' => '0.22.0.0',
-      'reference' => '0afa95ea74be155a7bcd6c6fb60c276c39984500',
+      'pretty_version' => '1.0.0',
+      'version' => '1.0.0.0',
+      'reference' => 'f3300fcd1bbf67d205b52217c75d0f7d6a8c47ff',
       'type' => 'library',
       'install_path' => __DIR__ . '/../enshrined/svg-sanitize',
       'aliases' => 
@@ -182,6 +182,18 @@
       ),
       'dev_requirement' => false,
     ),
+    'stellarwp/banners' => 
+    array (
+      'pretty_version' => '1.1.0',
+      'version' => '1.1.0.0',
+      'reference' => '782dc5754c5a68d1ccf9b90979a0d2a800d7f3fd',
+      'type' => 'library',
+      'install_path' => __DIR__ . '/../stellarwp/banners',
+      'aliases' => 
+      array (
+      ),
+      'dev_requirement' => false,
+    ),
     'stellarwp/container-contract' => 
     array (
       'pretty_version' => '1.1.1',
@@ -208,9 +220,9 @@
     ),
     'stellarwp/harbor' => 
     array (
-      'pretty_version' => 'v1.6.1',
-      'version' => '1.6.1.0',
-      'reference' => '1a05907ab2ff356c95d344f3734d98429ea1951e',
+      'pretty_version' => 'v2.0.2',
+      'version' => '2.0.2.0',
+      'reference' => 'bc13f0ee39c7f1460aa746dddb183dcf0462c5d3',
       'type' => 'library',
       'install_path' => __DIR__ . '/../stellarwp/harbor',
       'aliases' => 
